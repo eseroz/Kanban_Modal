@@ -25,6 +25,7 @@ var _TASK_UID = $("#form\\[TASK_UID\\]").val();
 var _USER_UID = $("#form\\[USER_UID\\]").val();
 
 $(document).ready(function () {
+    $(".page_loader_container").remove();
     $("[name='txtUrunKodu']").focusout(function () {
 
         var formData = new FormData();
@@ -39,8 +40,9 @@ $(document).ready(function () {
             contentType: false,
             url: _AJAX_PATH,
             success: function (PRODUCT) {
+                console.log(PRODUCT);
                 if (PRODUCT.length > 0) {
-                    $("[name='txtAciklama']").val(PRODUCT[0].NAME);
+                    $("[name='txtAciklama']").val(PRODUCT.NAME);
                 }
             },
             error: function (a,b,c) {
