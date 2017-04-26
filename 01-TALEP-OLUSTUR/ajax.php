@@ -23,7 +23,7 @@ switch ($option)
         {
             $PRODUCT_ID = $ORDER_ITEM->PRODUCT_ID;
             $QUANTITY = $ORDER_ITEM->MIKTAR;
-            $INSERT_ORDER_ITEM = $pf->bahadir->mssqlDb->ExexQuery("INSERT INTO ORDERS (ORDER_CODE,PRODUCT_ID,QUANTITY) VALUES('$ORDER_CODE', $PRODUCT_ID, $QUANTITY)");
+            $INSERT_ORDER_ITEM = $pf->bahadir->kanbanDb->ExexQuery("INSERT INTO ORDERS (ORDER_CODE,PRODUCT_ID,QUANTITY) VALUES('$ORDER_CODE', $PRODUCT_ID, $QUANTITY)");
         }
 
 

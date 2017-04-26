@@ -72,9 +72,11 @@ $(document).ready(function () {
     var $submit = $("#form\\[btnSubmit\\]");
     $submit.click(function () {
        
+        var SIPARIS_NO = $("#form\\[SIPARIS_KODU\\]").val();
+
         var formData = new FormData();
         formData.append("OPTION", "INSERT_ORDER");
-        formData.append("ORDER_CODE", $("#form\\[SIPARIS_KODU\\]").val());
+        formData.append("ORDER_CODE", SIPARIS_NO);
         formData.append("ORDER_LIST", JSON.stringify(_TALEP_LISTESI));
 
         $.ajax({
@@ -85,7 +87,8 @@ $(document).ready(function () {
             contentType: false,
             url: _AJAX_PATH,
             success: function (RESULT) {
-                console.log(RESULT);
+                alert("TALEBİNİZ " + SIPARIS_NO + " NO'LU SİPARİŞ KODU İLE SİSTEME AKTARILDI.");
+                $("form").submit();
             },
             error: function (a, b, c) {
                 console.log(a);
