@@ -4,28 +4,27 @@ $(".userGroupTitle").closest("table").remove();
 var _Tarih = new Date();
 var _Yil = _Tarih.getFullYear();
 
-var _CURRENT_RECETE_SATIRLAR = [];
-var _STOK_KATEGORI_LISTESI = [];
-var _STOK_TIP_LISTESI = [];
-var _STOK_SINIF_LISTESI = [];
-var _OLCU_BIRIMI_LISTESI = [];
-var _STOK_STATU_LISTESI = [];
-var _RECETELER = [];
+var _TALEP_LISTESI = [];
 
-var _PARENT_MSSQL_CASE_ID = $("#form\\[PARENT_MSSQL_CASE_ID\\]").val();
-var _PARENT_PROCESS_UID = $("#form\\[PARENT_PROCESS_UID\\]").val();
-var _PARENT_CASE_ID = $("#form\\[PARENT_CASE_ID\\]").val();
-var _PARENT_TASK_UID = $("#form\\[PARENT_TASK_UID\\]").val();
-var _PARENT_USER_UID = $("#form\\[PARENT_USER_UID\\]").val();
-var _DYNAFORM = $("#48233032258985513709859026653482");
+//var _PARENT_MSSQL_CASE_ID = $("#form\\[PARENT_MSSQL_CASE_ID\\]").val();
+//var _PARENT_PROCESS_UID = $("#form\\[PARENT_PROCESS_UID\\]").val();
+//var _PARENT_CASE_ID = $("#form\\[PARENT_CASE_ID\\]").val();
+//var _PARENT_TASK_UID = $("#form\\[PARENT_TASK_UID\\]").val();
+//var _PARENT_USER_UID = $("#form\\[PARENT_USER_UID\\]").val();
+//var _DYNAFORM = $("#48233032258985513709859026653482");
 var _AJAX_PATH = "/BAHADIR_BPMS/BPROCESS/00-KANBAN/01-TALEP-OLUSTUR/ajax.php";
-var _PROCESS_UID = $("#form\\[PROCESS_UID\\]").val();
-var _PM_CASE_ID = $("#form\\[CASE_ID\\]").val();
-var _TASK_UID = $("#form\\[TASK_UID\\]").val();
-var _USER_UID = $("#form\\[USER_UID\\]").val();
+//var _PROCESS_UID = $("#form\\[PROCESS_UID\\]").val();
+//var _PM_CASE_ID = $("#form\\[CASE_ID\\]").val();
+//var _TASK_UID = $("#form\\[TASK_UID\\]").val();
+//var _USER_UID = $("#form\\[USER_UID\\]").val();
 
 $(document).ready(function () {
-    $(".page_loader_container").remove();
+
+    setTimeout(function () {
+        $(".page_loader_container").remove();
+    }, 5000);
+
+
     $("[name='txtUrunKodu']").focusout(function () {
 
         var formData = new FormData();
@@ -40,10 +39,8 @@ $(document).ready(function () {
             contentType: false,
             url: _AJAX_PATH,
             success: function (PRODUCT) {
-                console.log(PRODUCT);
-                if (PRODUCT.length > 0) {
-                    $("[name='txtAciklama']").val(PRODUCT.NAME);
-                }
+                $("[name='txtAciklama']").val(PRODUCT.NAME);
+                $("[name='txtMiktar']").focus();
             },
             error: function (a,b,c) {
                 console.log(a);
@@ -51,6 +48,28 @@ $(document).ready(function () {
                 console.log(c);
             }
         });
+    });
+
+    $("[name='btnListeyeEkle']").click(function () {
+
+        var URUN_KODU = $("[name='txtUrunKodu']").val();
+        var ACIKLAMA = $("[name='txtAciklama']").val();
+        var MIKTAR = $("[name='txtMiktar']").val();
+
+        if (URUN_KODU != "" && ACIKLAMA != "" && MIKTAR != "") {
+            var obj = { 'URUN_KODU': URUN_KODU, 'ACIKLAMA': ACIKLAMA, 'MIKTAR': MIKTAR };
+            _TALEP_LISTESI.push(obj);
+            $("tbody").find("tr").remove();
+            for (var i = 0; i < _TALEP_LISTESI.length; i++) {
+                $("tbody").append('<tr><td>' + (i + 1) + '</td><td style="width:150px;">' + _TALEP_LISTESI[i].URUN_KODU + '</td><td>' + _TALEP_LISTESI[i].ACIKLAMA + '</td><td style="width:150px;">' + _TALEP_LISTESI[i].MIKTAR + '</td><td style="width:150px;"></td></tr>');
+            }
+        }
+
+    });
+
+    $("#form[submit0000000001]").attr("type", "button");
+    $("#form[submit0000000001]").click(function () {
+        //$("form").submit();
     });
 });
 
