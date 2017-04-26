@@ -67,9 +67,9 @@ $(document).ready(function () {
 
     });
 
-    $("#form[submit0000000001]").attr("type", "button");
-    $("#form[submit0000000001]").click(function () {
-        //$("form").submit();
+    var $submit = $("#form\\[btnSubmit\\]");
+    $submit.click(function () {
+       
     });
 });
 
