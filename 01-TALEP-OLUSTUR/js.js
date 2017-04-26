@@ -39,6 +39,7 @@ $(document).ready(function () {
             contentType: false,
             url: _AJAX_PATH,
             success: function (PRODUCT) {
+                $("[name='txtUrunKodu']").attr("product-id", PRODUCT.ID);
                 $("[name='txtAciklama']").val(PRODUCT.NAME);
                 $("[name='txtMiktar']").focus();
             },
@@ -52,12 +53,13 @@ $(document).ready(function () {
 
     $("[name='btnListeyeEkle']").click(function () {
 
+        var PRODUCT_ID = $("[name='txtUrunKodu']").attr("product-id");
         var URUN_KODU = $("[name='txtUrunKodu']").val();
         var ACIKLAMA = $("[name='txtAciklama']").val();
         var MIKTAR = $("[name='txtMiktar']").val();
 
         if (URUN_KODU != "" && ACIKLAMA != "" && MIKTAR != "") {
-            var obj = { 'URUN_KODU': URUN_KODU, 'ACIKLAMA': ACIKLAMA, 'MIKTAR': MIKTAR };
+            var obj = { 'PRODUCT_ID':PRODUCT_ID, 'URUN_KODU': URUN_KODU, 'ACIKLAMA': ACIKLAMA, 'MIKTAR': MIKTAR };
             _TALEP_LISTESI.push(obj);
             $("tbody").find("tr").remove();
             for (var i = 0; i < _TALEP_LISTESI.length; i++) {
@@ -70,6 +72,28 @@ $(document).ready(function () {
     var $submit = $("#form\\[btnSubmit\\]");
     $submit.click(function () {
        
+        var formData = new FormData();
+        formData.append("OPTION", "INSERT_ORDER");
+        formData.append("ORDER_CODE", $("#form\\[SIPARIS_KODU\\]").val());
+        formData.append("ORDER_LIST", JSON.stringify(_TALEP_LISTESI));
+
+        $.ajax({
+            type: 'POST',
+            dataType: 'text',
+            data: formData,
+            processData: false,
+            contentType: false,
+            url: _AJAX_PATH,
+            success: function (RESULT) {
+                console.log(RESULT);
+            },
+            error: function (a, b, c) {
+                console.log(a);
+                console.log(b);
+                console.log(c);
+            }
+        });
+
     });
 });
 
