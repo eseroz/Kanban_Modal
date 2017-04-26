@@ -18,17 +18,37 @@ var _PARENT_CASE_ID = $("#form\\[PARENT_CASE_ID\\]").val();
 var _PARENT_TASK_UID = $("#form\\[PARENT_TASK_UID\\]").val();
 var _PARENT_USER_UID = $("#form\\[PARENT_USER_UID\\]").val();
 var _DYNAFORM = $("#48233032258985513709859026653482");
-var _AJAX_PATH = "/BAHADIR_BPMS/BPROCESS/02-PROFORMA-OLUSTURMA-SURECI/03-OZEL-URETIM-PROJE-BERATI-HAZIRLAMA/ajax.php";
+var _AJAX_PATH = "/BAHADIR_BPMS/BPROCESS/00-KANBAN/01-TALEP-OLUSTUR/ajax.php";
 var _PROCESS_UID = $("#form\\[PROCESS_UID\\]").val();
 var _PM_CASE_ID = $("#form\\[CASE_ID\\]").val();
 var _TASK_UID = $("#form\\[TASK_UID\\]").val();
 var _USER_UID = $("#form\\[USER_UID\\]").val();
 
+$(document).ready(function () {
+    $("[name='txtUrunKodu']").focusout(function () {
 
+        var formData = new FormData();
+        formData.append("OPTION", "GET_PRODUCT");
+        formData.append("CODE", $(this).val());
 
-function AJAX_CALLBACK(DATA, PROCESS, SENDER) {
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            data: formData,
+            processData: false,
+            contentType: false,
+            url: _AJAX_PATH,
+            success: function (PRODUCT) {
+                if (PRODUCT.length > 0) {
+                    $("[name='txtAciklama']").val(PRODUCT[0].NAME);
+                }
+            },
+            error: function (a,b,c) {
+                console.log(a);
+                console.log(b);
+                console.log(c);
+            }
+        });
+    });
+});
 
-    switch (PROCESS) {
-
-    }
-}
